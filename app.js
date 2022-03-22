@@ -59,5 +59,4 @@ app.use('/look', swaggerUI.serve, swaggerUI.setup(swaggerFile));
 
 app.use(express.static('public'));
 
-app.listen(3000)
-//jason creat token
+app.listen(process.env.PORT || 3000);
