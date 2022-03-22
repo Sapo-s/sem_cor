@@ -1,23 +1,21 @@
 const express = require('express')
-const res = require('express/lib/response')
+const app = express()
+
+
 var mongoose = require('mongoose')
 
-var routeProduto = require('./routes/produto');
-var routeUsuario = require('./routes/usuario');
+var url = 'mongodb+srv://Admin:123@cluster0.np0cp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+var routeProduto = require('./routes/produto')
+var routeUsuario = require('./routes/usuario')
+var middleware = require("./middleware/middleware")
+var swaggerUI = require('swagger-ui-express')
+var swaggerFile = require('./swagger_output.json')
 
-var Usuarios = require('./models/usuario');
-
-var middleware = require("./middleware/middleware")// "chamei ele"middleware
-
-const app = express()
 app.use(express.json());
 
-var swaggerUI = require('swagger-ui-express');
-var swaggerFile = require('./swagger_output.json');
-const { dataConverter } = require('swagger-autogen/src/handle-data');
 
 
-var url = 'mongodb+srv://Admin:123@cluster0.np0cp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+
 const options = {
   poolSize: 5,
   useNewUrlParser: true,
