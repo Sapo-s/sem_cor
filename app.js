@@ -1,21 +1,19 @@
 const express = require('express')
-const app = express()
-
-
+const res = require('express/lib/response')
 var mongoose = require('mongoose')
 
-var url = 'mongodb+srv://Admin:123@cluster0.np0cp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
-var routeProduto = require('./routes/produto')
-var routeUsuario = require('./routes/usuario')
-var middleware = require("./middleware/middleware")
-var swaggerUI = require('swagger-ui-express')
-var swaggerFile = require('./swagger_output.json')
+var routeProduto = require('./routes/produto');
+var routeUsuario = require('./routes/usuario');
 
-app.use(express.json());
+var middlewares = require('./middlewares/middlewares');
+
+const app = express()
+
+var swaggerUI = require('swagger-ui-express');
+var swaggerFile = require('./swagger_output.json');
 
 
-
-
+var url = 'mongodb+srv://admin:123@cluster0.3q6c6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const options = {
   poolSize: 5,
   useNewUrlParser: true,
@@ -27,7 +25,7 @@ mongoose.connect(url, options);
 mongoose.set('useCreateIndex', true);
 
 mongoose.connection.on('connected', () => {
-  console.log('Started! - - -')
+  console.log('Ok, conectado ao mongodb!!!')
 })
 
 mongoose.connection.on('error', (err) => {
@@ -38,9 +36,9 @@ mongoose.connection.on('disconnected', () => {
   console.log('Fechou a conexão com o banco!!!')
 })
 
+app.use(express.json());
 
-
-app.use(middleware.request)// "Foi ativado" o middleware
+app.use(middlewares.request);
 
 app.get('/', function (req, res) {
   // #swagger.tags = ['Root']   
@@ -49,11 +47,10 @@ app.get('/', function (req, res) {
   res.send('Opa!')
 })
 
-app.use('/produtos', routeProduto);
+app.use('/produtos', middlewares.autenticacao, routeProduto);
+app.use('/usuarios', routeUsuario);
 
-app.use('/usuario', routeUsuario); //criar o usuario
-
-app.use('/look', swaggerUI.serve, swaggerUI.setup(swaggerFile));
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerFile));
 
 app.use(express.static('public'));
 

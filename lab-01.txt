@@ -1,22 +1,6 @@
-#lab-01
-Desenvolver uma API para o CRUD de contatos (codigo, nome, endereco, telefone):
-    1 - Um end-point para incluir
-    2 - Um end-point para listar
-    3 - Um end-point para buscar um registro
-    4 - Um end-point para alterar 
-    5 - Um end-point para excluir
-    6 - Para todos os end-points logar os dados recebidos como parâmetro, 
-    querystring ou body
 
 
-
-
-
-
-
-
-
-
-
-    (vamos fazer na sequência)
-    7 - Documentar a API com o Swagger 
+#lab-04
+Implementar autenticação com JWT na API de contatos/clientes
+    1 - Logar usuário com dados registrados no MongoDB.
+    2 - Criar middleware para validar o token e continuar na requisição ou negar o acesso.

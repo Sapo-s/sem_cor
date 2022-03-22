@@ -43,7 +43,6 @@ exports.incluir = async (req, res) => {
 
 };
 
-
 exports.buscar = async (req, res) => {
     // #swagger.tags = ['Produtos']   
     // #swagger.description = 'Incluir um produto'
@@ -66,3 +65,53 @@ exports.buscar = async (req, res) => {
     })
 
 };
+
+exports.listar = async (req, res) => {
+    // #swagger.tags = ['Produtos']   
+    // #swagger.description = 'Listar produto'
+    Produtos.find({}, (err, data) => {
+        res.status(200).send(data)
+    })
+}
+
+exports.alterar = async (req, res) => {
+    // #swagger.tags = ['Produtos']   
+    // #swagger.description = 'Alterar produto'
+
+    var codigo = req.params.codigo;
+
+    Produtos.findOneAndUpdate({ codigo }, { $set: req.body }, (err, data) => {
+        if (err) {
+            console.log(err)
+            res.status(206).send();
+        }
+        else {
+            res.status(201).send({
+                mensagem: 'Tudo ok com a requisição para alterar produtos',
+                codigo: 5004
+            })
+        }
+    })
+}
+
+exports.excluir = async (req, res) => {
+    // #swagger.tags = ['Produtos']   
+    // #swagger.description = 'Excluir produto'
+
+    var codigo = req.params.codigo;
+
+    Produtos.findOneAndDelete({ codigo }, (err, data) => {
+        if (err) {
+            console.log(err)
+            res.status(206).send();
+        }
+        else {
+            res.status(200).send(
+                {
+                    mensagem: 'Tudo ok com a requisição para excluir produtos',
+                    codigo: 5003
+                }
+            )
+        }
+    })
+}
